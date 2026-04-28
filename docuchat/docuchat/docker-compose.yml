@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: docuchat-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads_vol:/app/uploads      # Yüklenen dosyalar kalıcı saklanır
+      - ./chroma_vol:/app/chroma_db     # Vektör DB kalıcı saklanır
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - CHROMA_PERSIST_DIR=/app/chroma_db
+      - UPLOAD_DIR=/app/uploads
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+# Not: Frontend dosyaları backend container'ı tarafından /static rotasında sunulur.
+# Ayrı bir nginx container'a gerek yoktur.

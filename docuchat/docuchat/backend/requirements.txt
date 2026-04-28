@@ -1,0 +1,19 @@
+# Web framework
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+
+# OpenAI
+openai==1.55.3
+
+# Vektör veritabanı
+chromadb==0.5.20
+
+# Doküman işleme
+PyMuPDF==1.24.13        # PDF okuma (fitz)
+python-docx==1.1.2      # DOCX okuma
+
+# Ayar yönetimi
+pydantic-settings==2.6.1
+
+# Dosya yükleme
+python-multipart==0.0.18
