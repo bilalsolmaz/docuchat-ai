@@ -328,15 +328,21 @@
     .modal {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 16px; padding: 28px; max-width: 520px; width: 90%;
+      max-height: 90vh; display: flex; flex-direction: column;
       animation: fadeUp .25s ease;
     }
     @keyframes fadeUp { from{ transform:translateY(20px); opacity:0 } }
-    .modal h3 { font-size: 1.1rem; margin-bottom: 14px; }
-    .modal-body { color: var(--muted); font-size: .88rem; line-height: 1.7; white-space: pre-wrap; }
+    .modal h3 { font-size: 1.1rem; margin-bottom: 14px; flex-shrink: 0; }
+    .modal-body { 
+      color: var(--muted); font-size: .88rem; line-height: 1.7; 
+      white-space: pre-wrap; overflow-y: auto; padding-right: 8px; 
+    }
+    .modal-body::-webkit-scrollbar { width: 4px; }
+    .modal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
     .modal-close {
       margin-top: 18px; width: 100%; padding: 10px; border-radius: 8px;
       background: var(--accent); border: none; color: #fff; cursor: pointer;
-      font-family: var(--font); font-size: .88rem; font-weight: 600;
+      font-family: var(--font); font-size: .88rem; font-weight: 600; flex-shrink: 0;
     }
   </style>
 </head>
@@ -733,17 +739,36 @@ function renderSourcesToMsg(msgId, sources) {
   const msgEl = document.getElementById(msgId);
   if (!msgEl) return;
   const body = msgEl.querySelector('.msg-body');
+  
+  const grouped = {};
+  sources.forEach(s => {
+    if (!grouped[s.document_name]) grouped[s.document_name] = [];
+    grouped[s.document_name].push(s);
+  });
+
   const srcHtml = `
   <div class="sources">
-    <div class="sources-label">📎 Kaynaklar</div>
-    ${sources.map((s, i) => `
-    <div class="source-chip" title="${escapeHtml(s.chunk_text)}">
-      <span class="src-score">${Math.round(s.relevance_score * 100)}%</span>
-      <div>
-        <div class="src-name">${escapeHtml(s.document_name)}</div>
-        <div class="src-excerpt">${escapeHtml(s.chunk_text.substring(0, 120))}…</div>
+    <div class="sources-label">📎 Faydalanılan Kesitler</div>
+    ${Object.entries(grouped).map(([docName, chunks]) => `
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 8px; margin-top: 4px;">
+      <div style="font-size: .8rem; font-weight: 600; color: var(--accent); padding-bottom: 6px; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+        📄 ${escapeHtml(docName)} <span style="font-size: 0.7rem; color: var(--muted); font-weight: normal;">(${chunks.length} bölüm kullanıldı)</span>
       </div>
-    </div>`).join('')}
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+        ${chunks.map((s, idx) => `
+        <div style="background: var(--surface); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); cursor: help;" title="${escapeHtml(s.chunk_text)}">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 0.7rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;">Kesit ${idx + 1}</span>
+            <span style="background: rgba(108,99,255,0.15); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700;">%${Math.round(s.relevance_score * 100)} Uyum</span>
+          </div>
+          <div style="font-size: 0.78rem; line-height: 1.5; color: #a2a6bd; border-left: 2px solid var(--accent); padding-left: 8px; font-style: italic;">
+            "${escapeHtml(s.chunk_text.substring(0, 150)).trim()}..."
+          </div>
+        </div>
+        `).join('')}
+      </div>
+    </div>
+    `).join('')}
   </div>`;
   body.insertAdjacentHTML('beforeend', srcHtml);
 }
