@@ -18,15 +18,15 @@ Projenin modern arayüzünü ve temel işlevlerini aşağıda inceleyebilirsiniz
 
 ### 1. Ana Panel ve Sohbet Ekranı
 Arayüz, modern karanlık teması, minimal çizgileri ve kullanıcı dostu yerleşimi ile profesyonel bir SaaS ürünü hissi sunar.
-![Ana Panel ve Sohbet Ekranı](img/Screenshot%201.png)
+![Ana Panel ve Sohbet Ekranı](docuchat/img/Screenshot%201.png)
 
 ### 2. Çoklu Doküman Yönetimi ve Sürükle-Bırak Yükleme
 Sol panelden çoklu dosya yükleyebilir, dilediğiniz dokümanları seçerek sorgulama kapsamınızı esnek bir şekilde belirleyebilirsiniz.
-![Çoklu Doküman Yönetimi](img/Screenshot%202.png)
+![Çoklu Doküman Yönetimi](docuchat/img/Screenshot%202.png)
 
 ### 3. Gelişmiş RAG Yanıtı ve Akıllı Kaynakça Gösterimi
 Yapay zekâ yanıtları kelime kelime akarken, hemen altında yanıtın dokümanın tam olarak hangi bölümünden alındığı ve benzerlik (uyum) yüzdesi şeffaf bir şekilde listelenir.
-![Gelişmiş RAG ve Kaynakça](img/Screenshot%203.png)
+![Gelişmiş RAG ve Kaynakça](docuchat/img/Screenshot%203.png)
 
 ---
 
