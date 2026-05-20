@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: docuchat-backend
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - ./uploads_vol:/app/uploads      # Yüklenen dosyalar kalıcı saklanır
       - ./chroma_vol:/app/chroma_db     # Vektör DB kalıcı saklanır
